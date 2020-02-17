@@ -1,0 +1,21 @@
+source ./switch_os.shlib
+source ./log.shlib
+
+get_host () {
+    # Determine if an host is resolvable
+    # :param: Host to resolve
+
+    local resolved
+    if $OSX; then
+        resolved=$(dscacheutil -q host -a name "$1" | grep ip_address | cut -d: -f2 | tr -d '[:blank:]')
+    elif $LINUX; then
+        resolved=$(getent hosts "$1"| cut -d" " -f1)
+    else
+        log error "Unknow system $(uname -s)"
+        exit 1
+    fi
+    log debug "Host $1 point to : $resolved"
+    echo "$resolved"
+}
+
+get_host google.fr

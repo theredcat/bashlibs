@@ -1,0 +1,9 @@
+in_array () {
+    # Test if array contains the specified element
+    # :param: element to search
+    # :param: array to search in
+    local e match="$1"
+    shift
+    for e; do [[ "$e" == "$match" ]] && return 0; done
+    return 1
+}

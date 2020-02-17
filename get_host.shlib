@@ -17,5 +17,3 @@ get_host () {
     log debug "Host $1 point to : $resolved"
     echo "$resolved"
 }
-
-get_host google.fr

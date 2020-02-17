@@ -1,0 +1,10 @@
+OSX=false
+LINUX=false
+case $(uname -s) in
+    Darwin)
+        OSX=true
+    ;;
+    Linux)
+        LINUX=true
+    ;;
+esac

@@ -1,0 +1,22 @@
+get_ns () {
+    # Find name servers for a domain recursively
+    # :param: domain
+
+    local dns="$1"
+    while [ "${#dns}" -gt 0 ]; do
+        servers="$(host -t ns "$dns")";
+        if echo "$servers" | grep -qE "^$dns name server"; then
+            echo "$servers" | cut -d' ' -f4;
+            exit 0;
+        else
+            previous_dns="$dns"
+            dns="$(echo "$dns" | cut -d. -f2-)";
+            if [ "$previous_dns" = "$dns" ]; then
+                log error "Unable to determine nameservers for server FQDN"
+                exit 1
+            fi
+        fi
+    done
+    exit 1
+} 
+
